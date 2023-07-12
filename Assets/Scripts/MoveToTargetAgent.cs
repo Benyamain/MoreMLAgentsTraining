@@ -8,6 +8,7 @@ using Unity.MLAgents.Sensors;
 public class MoveToTargetAgent : Agent
 {
     [SerializeField] private Transform target;
+    [SerializeField] private SpriteRenderer backgroundSpriteRenderer;
 
     // 4
     public override void OnEpisodeBegin() {
@@ -43,9 +44,11 @@ public class MoveToTargetAgent : Agent
         if (other.TryGetComponent(out Target target))
         {
             AddReward(10f);
+            backgroundSpriteRenderer.color = Color.green;
             EndEpisode();
         } else if (other.TryGetComponent(out Wall wall)) {
             AddReward(-2f);
+            backgroundSpriteRenderer.color = Color.red;
             EndEpisode();
         }
     }
