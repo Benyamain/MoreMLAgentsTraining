@@ -8,18 +8,22 @@ using Unity.MLAgents.Sensors;
 public class MoveToTargetAgent : Agent
 {
     [SerializeField] private Transform target;
+    [SerializeField] private Transform environment;
     [SerializeField] private SpriteRenderer backgroundSpriteRenderer;
 
     // 4
     public override void OnEpisodeBegin() {
-        transform.position = new Vector3(Random.Range(-3.5f, -1.5f), Random.Range(-3.5f, 3.5f));
-        target.position = new Vector3(Random.Range(1.5f, 3.5f), Random.Range(-3.5f, 3.5f));
+        transform.localPosition = new Vector3(Random.Range(-3.5f, -1.5f), Random.Range(-3.5f, 3.5f));
+        target.localPosition = new Vector3(Random.Range(1.5f, 3.5f), Random.Range(-3.5f, 3.5f));
+        
+        environment.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+        transform.rotation = Quaternion.identity;
     }
     
     // 2
     public override void CollectObservations(VectorSensor sensor) {
-        sensor.AddObservation((Vector2)transform.position);
-        sensor.AddObservation((Vector2)target.position);
+        sensor.AddObservation((Vector2)transform.localPosition);
+        sensor.AddObservation((Vector2)target.localPosition);
     }
     
     // 1
